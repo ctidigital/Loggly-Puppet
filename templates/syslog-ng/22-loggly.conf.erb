@@ -4,7 +4,7 @@
 
 
 template LogglyFormat {
-    template("<${PRI}>1 ${ISODATE} ${HOST} ${PROGRAM} ${PID} ${MSGID} [<%= @customer_token -%>@41058 <% if @custom_tag -%>tag=\"<%= @custom_tag %>\" <% end -%>] $MSG\n");
+    template("<${PRI}>1 ${ISODATE} ${HOST} ${PROGRAM} ${PID} ${MSGID} [<%= @customer_token -%>@41058 <% if ! @custom_tag.nil?; [ @custom_tag ].flatten.each do |tag| -%>tag=\"<%= tag %>\" <% end; end -%>] $MSG\n");
 };
 
 destination d_loggly {

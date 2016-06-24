@@ -1,10 +1,9 @@
-<% if @enable_tls -%>
-
 ##########################################################
 ### TLS RsyslogTemplate for Loggly
 ##########################################################
 
-$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @customer_token -%>@41058 <% if @custom_tag -%>tag=\"<%= @custom_tag %>\" <% end -%>] %msg%"
+$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @customer_token -%>@41058 <% if ! @custom_tag.nil?; [ @custom_tag ].flatten.each do |tag| -%>tag=\"<%= tag %>\" <% end; end -%>] %msg%\n"
+<% if @enable_tls -%>
 
 #RsyslogGnuTLS
 
@@ -13,17 +12,8 @@ $ActionSendStreamDriver gtls
 $ActionSendStreamDriverMode 1
 $ActionSendStreamDriverAuthMode x509/name
 $ActionSendStreamDriverPermittedPeer *.loggly.com
-
-*.* @@logs-01.loggly.com:6514;LogglyFormat
-
-<% else -%>
-
-##########################################################
-### TLS RsyslogTemplate for Loggly
-##########################################################
-
-$template LogglyFormat,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @customer_token -%>@41058 <% if @custom_tag -%>tag=\"<%= @custom_tag %>\" <% end -%>] %msg%\n"
+<% end -%>
 
 *.* @@logs-01.loggly.com:514; LogglyFormat
-<% end -%>
+
 #################END CONFIG FILE#########################
