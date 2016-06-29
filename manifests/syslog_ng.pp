@@ -114,6 +114,7 @@ class loggly::syslog_ng (
     command     => 'service syslog-ng restart',
     path        => [ '/usr/sbin', '/sbin', '/usr/bin/', '/bin', ],
     refreshonly => true,
+    alias       => 'restart_logging',
   }
 }
 

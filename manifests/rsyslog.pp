@@ -80,6 +80,7 @@ class loggly::rsyslog (
     command     => 'service rsyslog restart',
     path        => [ '/usr/sbin', '/sbin', '/usr/bin/', '/bin', ],
     refreshonly => true,
+    alias       => 'restart_logging',
   }
 }
 

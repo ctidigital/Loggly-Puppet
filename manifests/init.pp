@@ -63,6 +63,7 @@ class loggly (
     mode    => '0644',
     source  => "puppet:///modules/${module_name}/loggly_full.crt",
     require => File[$_cert_path],
+    notify  => Exec['restart_logging'],
   }
 }
 
